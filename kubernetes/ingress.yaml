@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: retail-ingress
+
+spec:
+
+  ingressClassName: nginx
+
+  rules:
+
+  - host: retail.local
+
+    http:
+
+      paths:
+
+      - path: /auth
+        pathType: Prefix
+
+        backend:
+          service:
+            name: auth-service
+            port:
+              number: 80
+
+      - path: /products
+        pathType: Prefix
+
+        backend:
+          service:
+            name: product-service
+            port:
+              number: 80
+
+      - path: /recommend
+        pathType: Prefix
+
+        backend:
+          service:
+            name: recommendation-service
+            port:
+              number: 80
