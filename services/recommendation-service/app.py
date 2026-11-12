@@ -1,21 +1,36 @@
 from fastapi import FastAPI
+from database import recommendation_collection
 
 app = FastAPI()
 
-recommendations = {
-    "iphone":["AirPods","Apple Watch"],
-    "samsung":["Galaxy Watch","Galaxy Buds"],
-    "dell":["Wireless Mouse","Keyboard"]
-}
-
 @app.get("/")
 def home():
-    return {"service":"Recommendation Service"}
+    return {"service": "Recommendation Service"}
 
-@app.get("/recommend/{product}")
-def recommend(product:str):
+@app.post("/recommend")
+def save_recommendation():
 
-    return {
-        "recommendations":
-        recommendations.get(product.lower(),[])
+    data = {
+        "user_id": 1,
+        "recommended_products": [
+            "Laptop",
+            "Mobile"
+        ]
     }
+
+    recommendation_collection.insert_one(data)
+
+    return {"message": "Recommendation saved"}
+
+@app.get("/recommend/{user_id}")
+def get_recommendation(user_id: int):
+
+    recommendation = recommendation_collection.find_one(
+        {"user_id": user_id},
+        {"_id": 0}
+    )
+
+    if recommendation:
+        return recommendation
+
+    return {"message": "No recommendation found"}
