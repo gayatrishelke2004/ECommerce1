@@ -1,24 +1,33 @@
 from fastapi import FastAPI
 import psycopg2
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
-conn = psycopg2.connect(
-    host="postgres-service",
-    database="retaildb",
-    user="postgres",
-    password="postgres"
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/")
 def home():
-    return {
-        "service": "Search Service"
-    }
-
+    return {"service": "Search Service"}
 
 @app.get("/search")
 def search_product(q: str):
+
+    conn = psycopg2.connect(
+        host="postgres",
+        database="retaildb",
+        user="postgres",
+        password="postgres"
+    )
 
     cursor = conn.cursor()
 
@@ -39,7 +48,10 @@ def search_product(q: str):
         result.append({
             "id": product[0],
             "name": product[1],
-            "price": product[2]
+            "price": float(product[2])
         })
+
+    cursor.close()
+    conn.close()
 
     return result

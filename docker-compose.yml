@@ -67,3 +67,15 @@ services:
 
     depends_on:
       - mongodb
+  frontend:
+    build: ./frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - auth-service
+      - product-service
+      - user-service
+      - search-service
+      - recommendation-service      

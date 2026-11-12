@@ -1,24 +1,29 @@
 from fastapi import FastAPI
 import psycopg2
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
-conn = psycopg2.connect(
-    host="postgres-service",
-    database="retaildb",
-    user="postgres",
-    password="postgres"
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/")
 def home():
-    return {
-        "service": "User Service"
-    }
 
-
-@app.get("/users")
-def get_users():
+    conn = psycopg2.connect(
+        host="postgres",
+        database="retaildb",
+        user="postgres",
+        password="postgres"
+    )
 
     cursor = conn.cursor()
 
@@ -28,13 +33,4 @@ def get_users():
 
     users = cursor.fetchall()
 
-    result = []
-
-    for user in users:
-        result.append({
-            "id": user[0],
-            "name": user[1],
-            "email": user[2]
-        })
-
-    return result
+    return users

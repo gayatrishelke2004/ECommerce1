@@ -1,0 +1,67 @@
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#0f172a;
+    color:white;
+}
+
+header{
+    background:#111827;
+    padding:20px;
+    font-size:24px;
+    font-weight:bold;
+    box-shadow:0 4px 10px black;
+}
+
+.hero{
+    text-align:center;
+    padding:50px;
+}
+
+.hero h1{
+    font-size:48px;
+    color:#38bdf8;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    padding:30px;
+}
+
+.stat-card{
+    background:#1e293b;
+    border-radius:16px;
+    padding:25px;
+    text-align:center;
+}
+
+.card{
+    background:#1e293b;
+    color:white;
+    border-radius:16px;
+    padding:25px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+}
+
+pre{
+    background:#020617;
+    color:#22c55e;
+    padding:15px;
+    border-radius:10px;
+}
